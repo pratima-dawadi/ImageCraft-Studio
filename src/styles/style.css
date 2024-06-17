@@ -140,7 +140,8 @@ input:hover {
 }
 
 .right-panel button,
-.choose__img button {
+.choose__img button:nth-child(1),
+.choose__img button:nth-child(3) {
   border: none;
   margin: 2%;
   padding: 5%;
