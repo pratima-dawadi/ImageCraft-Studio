@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="/src/styles/style.css" />
+
+    <title>ImageCraft Studio</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="heading">ImageCraft Studio</h1>
+      <hr />
+
+      <div class="container__divide">
+        <div class="edit-panel disabled">
+          <div class="slider">
+            <div class="filter__info">
+              <span class="name">Brightness</span>
+              <span class="value">100%</span>
+            </div>
+            <input
+              class="filter__slider"
+              id="brightness"
+              type="range"
+              min="0"
+              max="200"
+              value="100"
+            />
+          </div>
+
+          <div class="icons">
+            <p>Image Adjustments</p>
+            <div class="icons__collection1">
+              <button title="Brightness" class="active" id="Brightness">
+                <img src="./src/images/brightness.png" alt="Brightness" />
+              </button>
+              <button title="Contrast" id="Contrast">
+                <img src="./src/images/contrast.png" alt="Contrast" />
+              </button>
+              <button title="Saturation" id="Saturation">
+                <img src="./src/images/saturation.png" alt="Saturation" />
+              </button>
+              <button title="Sepia" id="Sepia">
+                <img src="./src/images/sepia.png" alt="Sepia" />
+              </button>
+              <button title="Hue" id="Hue">
+                <img src="./src/images/hue.png" alt="Hue" />
+              </button>
+              <button title="Blur" id="Blur">
+                <img src="./src/images/blur.png" alt="Blur" />
+              </button>
+              <button title="Opacity" id="Opacity">
+                <img src="./src/images/opacity.png" alt="Opacity" />
+              </button>
+              <button title="Grayscale" id="Grayscale">
+                <img src="./src/images/grayscale.png" alt="Grayscale" />
+              </button>
+              <button title="Invert" id="Invert">
+                <img src="./src/images/invert.png" alt="Invert" />
+              </button>
+            </div>
+          </div>
+
+          <div class="icons">
+            <p>Image Transforms</p>
+            <div class="icons__collection2">
+              <button title="Rotate Left" id="rotateLeft">
+                <img src="./src/images/rotateleft.png" alt="RotateLeft" />
+              </button>
+              <button title="Rotate Right" id="rotateRight">
+                <img src="./src/images/rotateright.png" alt="RotateRight" />
+              </button>
+              <button title="Flip X" id="flipX">
+                <img src="./src/images/flipx.png" alt="FlipX" />
+              </button>
+              <button title="Flip Y" id="flipY">
+                <img src="./src/images/flipy.png" alt="FlipY" />
+              </button>
+            </div>
+          </div>
+
+          <div class="icons">
+            <p>Resize and Crop</p>
+            <div class="icons__collection3">
+              <button id="resize">
+                <img src="./src/images/resize.png" alt="Resize" />
+              </button>
+              <button id="crop">
+                <img src="./src/images/crop.png" alt="Crop" />
+              </button>
+            </div>
+          </div>
+
+          <div class="icons">
+            <p>Filters</p>
+            <div class="icons__collection4">
+              <button id="filter1">
+                <img src="./src/images/filter1.png" alt="Filter1" />
+              </button>
+              <button id="filter2">
+                <img src="./src/images/filter2.png" alt="Filter2" />
+              </button>
+              <button id="filter3">
+                <img src="./src/images/filter3.png" alt="Filter3" />
+              </button>
+              <button id="filter4">
+                <img src="./src/images/filter4.png" alt="Filter4" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="image-container">
+          <div class="view-image">
+            <img src="./src/images/thumbnail.png" alt="view-image" />
+            <video id="video" style="display: none"></video>
+          </div>
+
+          <div class="choose__img">
+            <button class="upload">Upload Image</button>
+            <input type="file" id="file" accept="image/*" hidden />
+            <button class="take__image">Take Image</button>
+            <button class="capture__image" style="display: none"></button>
+          </div>
+        </div>
+
+        <div class="right-panel">
+          <button class="reset">Reset Image <i class="fa fa-undo"></i></button>
+          <button class="save">Save Image <i class="fa fa-save"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
