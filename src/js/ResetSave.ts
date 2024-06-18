@@ -1,3 +1,4 @@
+import { ImageCollage } from "./ImageCollage";
 export class ResetSave {
   private imgSrc: HTMLImageElement;
   private saveButton: HTMLButtonElement;
@@ -5,6 +6,7 @@ export class ResetSave {
 
   private originalFilters: string;
   private originalTransform: string;
+  private imageCollageInstance: ImageCollage;
 
   constructor(
     imgSrc: HTMLImageElement,
@@ -16,6 +18,7 @@ export class ResetSave {
     this.resetButton = resetButton;
     this.originalFilters = imgSrc.style.filter;
     this.originalTransform = imgSrc.style.transform;
+    this.imageCollageInstance = new ImageCollage(imgSrc);
 
     this.addEventListeners();
   }
@@ -28,6 +31,7 @@ export class ResetSave {
   private resetImage() {
     this.imgSrc.style.filter = this.originalFilters;
     this.imgSrc.style.transform = this.originalTransform;
+    this.imgSrc.style.clipPath = "none";
   }
 
   private saveImage() {
