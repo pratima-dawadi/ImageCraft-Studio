@@ -22,7 +22,7 @@ new ImageAdjustment(imgSrc, slider, sliderName, sliderValue);
 new ImageTransform(imgSrc);
 new ResizeCrop(imgSrc);
 new ImageFilter(imgSrc);
-new ImageShape(imgSrc);
 new ImageCollage();
+new ImageShape(imgSrc);
 new ResetSave(imgSrc, saveButton, resetButton);
 new TextShape(imgSrc);
