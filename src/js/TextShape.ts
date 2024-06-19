@@ -9,7 +9,7 @@ export class TextShape {
       ".icons__collection6 button"
     );
     filterButtons.forEach((button) => {
-      button.addEventListener("click", () => {
+      button.addEventListener("drag", () => {
         this.makeShape(button.id);
       });
     });
@@ -17,8 +17,9 @@ export class TextShape {
 
   private makeShape(shape: string) {
     switch (shape) {
-      case "rectangle": {
-    
+      case "circle": {
+        console.log("circle");
+
         break;
       }
     }

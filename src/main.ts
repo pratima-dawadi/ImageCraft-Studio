@@ -6,6 +6,7 @@ import { ImageFilter } from "./js/ImageFilter";
 import { ResizeCrop } from "./js/ResizeCrop";
 import { ImageCollage } from "./js/ImageCollage";
 import { TextShape } from "./js/TextShape";
+import { ImageShape } from "./js/ImageShape";
 
 image();
 
@@ -21,6 +22,7 @@ new ImageAdjustment(imgSrc, slider, sliderName, sliderValue);
 new ImageTransform(imgSrc);
 new ResizeCrop(imgSrc);
 new ImageFilter(imgSrc);
-new ImageCollage(imgSrc);
+new ImageShape(imgSrc);
+new ImageCollage();
 new ResetSave(imgSrc, saveButton, resetButton);
 new TextShape(imgSrc);
