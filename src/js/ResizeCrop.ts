@@ -1,21 +1,7 @@
 export class ResizeCrop {
   private imgSrc: HTMLImageElement;
-  private isDragging: Boolean;
-  private startX: number;
-  private startY: number;
-  private cropX: number;
-  private cropY: number;
-  private cropWidth: number;
-  private cropHeight: number;
   constructor(imgSrc: HTMLImageElement) {
     this.imgSrc = imgSrc;
-    this.isDragging = false;
-    this.startX = 0;
-    this.startY = 0;
-    this.cropX = 0;
-    this.cropY = 0;
-    this.cropWidth = 0;
-    this.cropHeight = 0;
     this.CropEventListeners();
     this.ResizeEventListeners();
   }
