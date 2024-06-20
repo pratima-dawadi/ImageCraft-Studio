@@ -47,7 +47,9 @@ export class ResetSave {
     this.imgSrc.style.filter = this.originalFilters;
     this.imgSrc.style.transform = this.originalTransform;
     this.imgSrc.style.clipPath = "none";
-    this.imgSrc.src = this.originalSrc;
+    if (this.cropRect) {
+      this.imgSrc.src = this.originalSrc;
+    }
     this.cropRect = null;
   }
 

@@ -7,6 +7,7 @@ import { ResizeCrop } from "./js/ResizeCrop";
 import { ImageCollage } from "./js/ImageCollage";
 import { TextShape } from "./js/TextShape";
 import { ImageShape } from "./js/ImageShape";
+import { UndoTask } from "./js/UndoTask";
 
 image();
 
@@ -18,11 +19,17 @@ const sliderValue = document.querySelector(
 ) as HTMLElement;
 const resetButton = document.querySelector(".reset") as HTMLButtonElement;
 const saveButton = document.querySelector(".save") as HTMLButtonElement;
-new ImageAdjustment(imgSrc, slider, sliderName, sliderValue);
-new ImageTransform(imgSrc);
+const imageAdjustment = new ImageAdjustment(
+  imgSrc,
+  slider,
+  sliderName,
+  sliderValue
+);
+const imageTransform = new ImageTransform(imgSrc);
 new ResizeCrop(imgSrc);
-new ImageFilter(imgSrc);
+const imageFilter = new ImageFilter(imgSrc);
 new ImageCollage();
 new ImageShape(imgSrc);
 new ResetSave(imgSrc, saveButton, resetButton);
 new TextShape(imgSrc);
+new UndoTask(imageFilter, imageAdjustment, imageTransform);

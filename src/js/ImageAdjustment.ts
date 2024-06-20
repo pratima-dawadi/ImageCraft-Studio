@@ -1,3 +1,5 @@
+import { UndoTask } from "./UndoTask";
+
 export class ImageAdjustment {
   private imgSrc: HTMLImageElement;
   private slider: HTMLInputElement;
@@ -12,6 +14,9 @@ export class ImageAdjustment {
   private OPACITY = "100";
   private GRAYSCALE = "0";
   private INVERT = "0";
+  private filterHistory: string[] = [];
+  private undoTask: UndoTask | null = null;
+
   constructor(
     imgSrc: HTMLImageElement,
     slider: HTMLInputElement,
@@ -25,6 +30,10 @@ export class ImageAdjustment {
     this.addIconButtonsEventListeners();
     this.addSliderEventListener();
     this.activeButtons();
+  }
+
+  public setUndoTask(undoTask: UndoTask) {
+    this.undoTask = undoTask;
   }
 
   private activeButtons() {
@@ -105,6 +114,12 @@ export class ImageAdjustment {
         ".icons .active"
       ) as HTMLElement;
       this.updateFilterValues(activeButton.id, this.slider.value);
+      this.filterHistory.push(this.imgSrc.style.filter);
+
+      if (this.undoTask) {
+        this.undoTask.undoList.push("adjustment");
+      }
+
       this.applyFilters();
     });
   }
@@ -139,6 +154,7 @@ export class ImageAdjustment {
         break;
     }
   }
+
   private applyFilters() {
     this.imgSrc.style.filter = `
       brightness(${this.BRIGHTNESS}%)
@@ -151,5 +167,11 @@ export class ImageAdjustment {
       invert(${this.INVERT}%)
       opacity(${this.OPACITY}%)
     `;
+  }
+
+  undo() {
+    if (this.filterHistory.length > 0) {
+      this.imgSrc.style.filter = this.filterHistory.pop() || "";
+    }
   }
 }

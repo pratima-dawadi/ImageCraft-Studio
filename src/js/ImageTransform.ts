@@ -1,11 +1,20 @@
+import { UndoTask } from "./UndoTask";
+
 export class ImageTransform {
   private imgSrc: HTMLImageElement;
   private ROTATE = 0;
   private FLIPX = 1;
   private FLIPY = 1;
+  private transformHistory: string[] = [];
+  private undoTask: UndoTask | null = null;
+
   constructor(imgSrc: HTMLImageElement) {
     this.imgSrc = imgSrc;
     this.transformButtonsEventListeners();
+  }
+
+  public setUndoTask(undoTask: UndoTask) {
+    this.undoTask = undoTask;
   }
 
   private transformButtonsEventListeners() {
@@ -20,6 +29,12 @@ export class ImageTransform {
   }
 
   private updateTransform(transformType: string) {
+    this.transformHistory.push(this.imgSrc.style.transform);
+
+    if (this.undoTask) {
+      this.undoTask.undoList.push("transform");
+    }
+
     switch (transformType) {
       case "rotateLeft":
         this.ROTATE -= 90;
@@ -35,5 +50,11 @@ export class ImageTransform {
         break;
     }
     this.imgSrc.style.transform = `rotate(${this.ROTATE}deg) scaleX(${this.FLIPX}) scaleY(${this.FLIPY})`;
+  }
+
+  undo() {
+    if (this.transformHistory.length > 0) {
+      this.imgSrc.style.transform = this.transformHistory.pop() || "";
+    }
   }
 }
