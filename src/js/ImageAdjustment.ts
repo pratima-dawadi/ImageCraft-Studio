@@ -1,5 +1,9 @@
 import { UndoTask } from "./UndoTask";
 
+/**
+ * @class ImageAdjustment- For adjusting image properties like brightness, contrast, saturation, sepia, hue, blur, opacity, grayscale, and invert
+ */
+
 export class ImageAdjustment {
   private imgSrc: HTMLImageElement;
   private slider: HTMLInputElement;
@@ -15,7 +19,9 @@ export class ImageAdjustment {
   private GRAYSCALE = "0";
   private INVERT = "0";
   private filterHistory: string[] = [];
+  private redoHistory: string[] = [];
   private undoTask: UndoTask | null = null;
+  private filterApplied: string = "";
 
   constructor(
     imgSrc: HTMLImageElement,
@@ -36,6 +42,10 @@ export class ImageAdjustment {
     this.undoTask = undoTask;
   }
 
+  /**
+   * For checking which button is active
+   */
+
   private activeButtons() {
     const iconButtons = document.querySelectorAll(".icons button");
     iconButtons.forEach((button) => {
@@ -54,9 +64,15 @@ export class ImageAdjustment {
         button.classList.add("active");
         this.sliderName.innerHTML = button.id;
         this.setSliderValues(button.id);
+        this.filterApplied = button.id;
       });
     });
   }
+
+  /**
+   * set the slider values based on the filter type
+   * @param {string} filterType - filter type
+   */
 
   private setSliderValues(filterType: string) {
     switch (filterType) {
@@ -107,6 +123,7 @@ export class ImageAdjustment {
         break;
     }
   }
+
   private addSliderEventListener() {
     this.slider.addEventListener("input", () => {
       this.sliderValue.innerHTML = `${this.slider.value}%`;
@@ -116,13 +133,27 @@ export class ImageAdjustment {
       this.updateFilterValues(activeButton.id, this.slider.value);
       this.filterHistory.push(this.imgSrc.style.filter);
 
+      this.redoHistory = [];
+
       if (this.undoTask) {
         this.undoTask.undoList.push("adjustment");
       }
 
       this.applyFilters();
+
+      const historyElement = document.querySelector(".history-list");
+      if (historyElement) {
+        historyElement.innerHTML += `<li>Adjustment: ${this.filterApplied}</li>`;
+      }
     });
   }
+
+  /**
+   *Update the filter values based on the filter type
+   * @param filterType - filter type
+   * @param value - value of the filter
+   */
+
   private updateFilterValues(filterType: string, value: string) {
     switch (filterType) {
       case "Brightness":
@@ -155,6 +186,10 @@ export class ImageAdjustment {
     }
   }
 
+  /**
+   * @private applyFilters - apply particular filters to the image
+   */
+
   private applyFilters() {
     this.imgSrc.style.filter = `
       brightness(${this.BRIGHTNESS}%)
@@ -169,9 +204,35 @@ export class ImageAdjustment {
     `;
   }
 
+  /**
+   * @public undo - undo the last filter applied to the image
+   */
+
   undo() {
+    // if (this.filterHistory.length > 0) {
+    //   this.imgSrc.style.filter = this.filterHistory.pop() || "";
+    // }
     if (this.filterHistory.length > 0) {
-      this.imgSrc.style.filter = this.filterHistory.pop() || "";
+      const lastFilter = this.filterHistory.pop() || "";
+      this.redoHistory.push(this.imgSrc.style.filter);
+      this.imgSrc.style.filter = lastFilter;
+      if (this.undoTask) {
+        this.undoTask.redoList.push("adjustment");
+      }
+    }
+  }
+
+  /**
+   * @public redo - redo the last filter applied to the image
+   */
+  redo() {
+    if (this.redoHistory.length > 0) {
+      const lastRedo = this.redoHistory.pop() || "";
+      this.filterHistory.push(this.imgSrc.style.filter);
+      this.imgSrc.style.filter = lastRedo;
+      if (this.undoTask) {
+        this.undoTask.undoList.push("adjustment");
+      }
     }
   }
 }

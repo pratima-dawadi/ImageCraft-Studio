@@ -1,5 +1,8 @@
 import { Circle, Rectangle, Shape, Star, Triangle } from "./Shapes";
 
+/**
+ * @class TextShape - Class to handle the text shapes
+ */
 export class TextShape {
   private imgSrc: HTMLImageElement;
   private canvas: HTMLCanvasElement;

@@ -1,3 +1,6 @@
+/**
+ * @class ImageShape -for changing the shape of the image.
+ */
 export class ImageShape {
   private imgSrc: HTMLImageElement;
   constructor(imgSrc: HTMLImageElement) {
@@ -12,6 +15,11 @@ export class ImageShape {
       });
     });
   }
+
+  /**
+   * @public updatePhotoShape - For changing the shape of the image.
+   * @param shape - shape type to be applied
+   */
 
   public updatePhotoShape(shape: string) {
     switch (shape) {

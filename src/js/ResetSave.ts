@@ -1,3 +1,6 @@
+/**
+ * @class ResetSave- Responsible for resetting the image to its original state and saving the edited image
+ */
 export class ResetSave {
   private imgSrc: HTMLImageElement;
   private saveButton: HTMLButtonElement;
@@ -43,6 +46,9 @@ export class ResetSave {
     this.cropRect = { startX, startY, width, height };
   }
 
+  /**
+   * @private resetImage - Function to reset the image to its original state
+   */
   private resetImage() {
     this.imgSrc.style.filter = this.originalFilters;
     this.imgSrc.style.transform = this.originalTransform;
@@ -52,6 +58,10 @@ export class ResetSave {
     }
     this.cropRect = null;
   }
+
+  /**
+   * @private saveImage - Function to save the edited image
+   */
 
   private saveImage() {
     const link = document.createElement("a");

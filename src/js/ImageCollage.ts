@@ -1,6 +1,9 @@
 import { Rectangle } from "./Rectangle";
 import { getRandomNumber } from "./utils";
 
+/**
+ * @class ImageCollage- to create the photo collage
+ */
 export class ImageCollage {
   private collageContainer = document.querySelector(
     ".image-container"
@@ -29,6 +32,9 @@ export class ImageCollage {
     });
   }
 
+  /**
+   * @private makeCollage- Function to create the canvas and draw the rectangles on it
+   */
   private makeCollage() {
     this.targetDiv.innerHTML = "";
     this.targetDiv.appendChild(this.tempCanvas);
@@ -122,6 +128,11 @@ export class ImageCollage {
       }
     });
   }
+
+  /**
+   * @private chooseImage - Function to choose the images for the rectangles collage
+   * @param rectangle - Rectangle object
+   */
 
   private chooseImage(rectangle: Rectangle) {
     const input = document.createElement("input");

@@ -1,6 +1,9 @@
 import { Rectangle } from "./Shapes";
 import { ResetSave } from "./ResetSave";
 
+/**
+ * @class ResizeCrop - Class to handle the resize and crop functionality
+ */
 export class ResizeCrop {
   private imgSrc: HTMLImageElement;
   private canvas: HTMLCanvasElement;
@@ -75,6 +78,10 @@ export class ResizeCrop {
       imageHeight.addEventListener("input", () => this.updateSize());
     }
   }
+
+  /**
+   * @private updateSize - Function to update the size of the image
+   */
 
   private updateSize() {
     const imageWidth = document.querySelector("#width") as HTMLInputElement;

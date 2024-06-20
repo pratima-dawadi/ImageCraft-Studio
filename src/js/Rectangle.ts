@@ -1,3 +1,6 @@
+/**
+ * @class Rectangle - to create a rectangle
+ */
 export class Rectangle {
   private x: number;
   private y: number;
@@ -12,6 +15,11 @@ export class Rectangle {
     this.height = height;
     this.imageSrc = "";
   }
+
+  /**
+   * @public draw - Function to draw the rectangle on the canvas
+   * @param ctx - CanvasRenderingContext2D
+   */
 
   public draw(ctx: CanvasRenderingContext2D) {
     ctx.beginPath();
@@ -28,6 +36,12 @@ export class Rectangle {
       };
     }
   }
+
+  /**
+   * @public isClicked - Function to check if the rectangle is clicked
+   * @param x - x-coordinate of the click
+   * @param y - y-coordinate of the click
+   */
   public isClicked(x: number, y: number): boolean {
     return (
       x >= this.x &&
@@ -36,6 +50,12 @@ export class Rectangle {
       y <= this.y + this.height
     );
   }
+
+  /**
+   * @public setImage - Function to set the image to the rectangle
+   * @param ctx - CanvasRenderingContext2D
+   * @param imageSrc - image source
+   */
   public setImage(ctx: CanvasRenderingContext2D, imageSrc: string) {
     this.imageSrc = imageSrc;
     if (ctx) {

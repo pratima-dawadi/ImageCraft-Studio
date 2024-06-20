@@ -1,5 +1,8 @@
 import { UndoTask } from "./UndoTask";
 
+/**
+ * @class ImageFilter- For applying different filters to the image
+ */
 export class ImageFilter {
   private imgSrc: HTMLImageElement;
   private filterHistory: string[] = [];
@@ -27,11 +30,17 @@ export class ImageFilter {
     });
   }
 
+  /**
+   * @public updateFilter - For applying different filters to the image
+   * @param filter - filter type to be applied
+   */
+
   updateFilter(filter: string) {
     this.filterHistory.push(this.imgSrc.style.filter);
 
-    if (this.undoTask) {
-      this.undoTask.undoList.push("filter");
+    const historyElement = document.querySelector(".history-list");
+    if (historyElement) {
+      historyElement.innerHTML += `<li>Filter: ${filter}</li>`;
     }
 
     switch (filter) {
@@ -57,28 +66,45 @@ export class ImageFilter {
         break;
       }
     }
+    this.redoHistory = [];
+    if (this.undoTask) {
+      this.undoTask.undoList.push("filter");
+    }
   }
+
+  /**
+   * @public undo - Function to undo the last filter applied
+   */
 
   undo() {
     if (this.filterHistory.length > 0) {
-      this.imgSrc.style.filter = this.filterHistory.pop() || "";
+      // this.imgSrc.style.filter = this.filterHistory.pop() || "";
+      // this.redoHistory.push(this.imgSrc.style.filter);
+      // if (this.undoTask) {
+      //   this.undoTask.redoList.push("filter");
+      // }
+
+      const lastFilter = this.filterHistory.pop() || "";
       this.redoHistory.push(this.imgSrc.style.filter);
+      this.imgSrc.style.filter = lastFilter;
       if (this.undoTask) {
         this.undoTask.redoList.push("filter");
       }
     }
   }
 
-  redo() {
-    if (this.filterHistory.length > 0) {
-      const lastUndo = this.redoHistory.pop() || "";
-      this.filterHistory.push(lastUndo);
+  /**
+   * @public redo - Function to redo the last filter applied
+   */
 
+  redo() {
+    if (this.redoHistory.length > 0) {
+      const lastRedo = this.redoHistory.pop() || "";
+      this.filterHistory.push(this.imgSrc.style.filter);
+      this.imgSrc.style.filter = lastRedo;
       if (this.undoTask) {
         this.undoTask.undoList.push("filter");
       }
-
-      this.imgSrc.style.filter = lastUndo;
     }
   }
 }
