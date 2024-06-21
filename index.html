@@ -30,6 +30,7 @@
                   font-size: 25px;
                   border-radius: 15px;
                   color: white;
+                  border: none;
                 "
               >
                 PHOTO COLLAGE
@@ -104,6 +105,27 @@
           </div>
 
           <div class="icons">
+            <p>Filters</p>
+            <div class="icons__collection4">
+              <button title="Moon" id="moon">
+                <img src="./src/images/moon.png" alt="moon" />
+              </button>
+              <button title="Hudson" id="hudson">
+                <img src="./src/images/hudson.png" alt="hudson" />
+              </button>
+              <button title="Gingham" id="gingham">
+                <img src="./src/images/gingham.png" alt="gingham" />
+              </button>
+              <button title="Retro" id="retro">
+                <img src="./src/images/retro.png" alt="retro" />
+              </button>
+              <button title="BlackWhite" id="blackwhite">
+                <img src="./src/images/blackwhite.png" alt="blackwhite" />
+              </button>
+            </div>
+          </div>
+
+          <div class="icons">
             <p>Resize and Crop</p>
             <div class="icons__collection3">
               <button id="resize">
@@ -126,27 +148,6 @@
 
               <button id="crop">
                 <img src="./src/images/crop.png" alt="Crop" />
-              </button>
-            </div>
-          </div>
-
-          <div class="icons">
-            <p>Filters</p>
-            <div class="icons__collection4">
-              <button title="Moon" id="moon">
-                <img src="./src/images/moon.png" alt="moon" />
-              </button>
-              <button title="Hudson" id="hudson">
-                <img src="./src/images/hudson.png" alt="hudson" />
-              </button>
-              <button title="Gingham" id="gingham">
-                <img src="./src/images/gingham.png" alt="gingham" />
-              </button>
-              <button title="Retro" id="retro">
-                <img src="./src/images/retro.png" alt="retro" />
-              </button>
-              <button title="BlackWhite" id="blackwhite">
-                <img src="./src/images/retro.png" alt="blackwhite" />
               </button>
             </div>
           </div>
@@ -181,18 +182,29 @@
             <p>Text and Shapes</p>
             <div class="icons__collection6">
               <div class="text">
-                <button class="text">Insert Text</button>
-                <input type="color" id="color" />
+                <input
+                  type="text"
+                  class="text__input"
+                  placeholder="Enter Text"
+                />
+                <input type="color" class="text__color" />
                 <input
                   type="number"
-                  id="size"
+                  class="text__size"
                   placeholder="FontSize"
                   style="width: 25%; height: 1.8rem"
                 />
               </div>
+              <button
+                class="text__button"
+                style="width: 50%; text-align: center; margin-left: 30%"
+              >
+                Insert Text
+              </button>
+              <hr />
 
               <div class="insert-shapes">
-                <button class="insert__button">INSERT SHAPES</button>
+                <p>INSERT SHAPES</p>
 
                 <div class="shapes">
                   <button class="shapes__button" title="Circle" id="circle">
@@ -241,6 +253,8 @@
             <h4>History</h4>
             <div class="history-list"></div>
           </div>
+          <h4>Layers</h4>
+          <div class="layer-list"></div>
         </div>
       </div>
     </div>

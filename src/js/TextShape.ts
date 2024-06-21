@@ -30,8 +30,9 @@ export class TextShape {
     this.startY = 0;
     this.currentShapeType = null;
 
-    this.setupCanvas();
+    // this.setupCanvas();
     this.setupEventListeners();
+    this.updateLayerList();
   }
 
   private setupCanvas() {
@@ -58,6 +59,7 @@ export class TextShape {
     );
     filterButtons.forEach((button) => {
       button.addEventListener("click", () => {
+        this.setupCanvas();
         this.currentShapeType = button.id;
       });
     });
@@ -177,6 +179,7 @@ export class TextShape {
           break;
       }
       this.isDrawing = false;
+      this.updateLayerList();
     } else if (this.isMoving) {
       this.isMoving = false;
       this.selectedShapeIndex = null;
@@ -193,5 +196,51 @@ export class TextShape {
 
   private clearCanvas() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+
+  /**
+   * Updates the layer list displayed in the UI.
+   * @private
+   */
+  private updateLayerList() {
+    const layerListElement = document.querySelector(".layer-list");
+    if (!layerListElement) return;
+
+    layerListElement.innerHTML = "";
+    this.shapes.forEach((shape, index) => {
+      const listItem = document.createElement("li");
+      listItem.textContent = `${shape.constructor.name} (${index})`;
+      listItem.addEventListener("click", () => {
+        this.selectShape(index);
+      });
+      layerListElement.appendChild(listItem);
+    });
+  }
+
+  /**
+   * Selects a shape from the layer list and highlights it.
+   * @param {number} index - The index of the shape to select.
+   * @private
+   */
+  private selectShape(index: number) {
+    this.selectedShapeIndex = index;
+    this.clearCanvas();
+    this.drawAllShapes();
+    this.highlightSelectedShape();
+  }
+
+  /**
+   * Highlights the currently selected shape by drawing an outline around it.
+   * @private
+   */
+  private highlightSelectedShape() {
+    if (this.selectedShapeIndex !== null) {
+      const selectedShape = this.shapes[this.selectedShapeIndex];
+      this.ctx.save();
+      this.ctx.strokeStyle = "red";
+      this.ctx.lineWidth = 2;
+      selectedShape.draw(this.ctx);
+      this.ctx.restore();
+    }
   }
 }

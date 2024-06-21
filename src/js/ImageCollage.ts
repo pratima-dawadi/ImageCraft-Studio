@@ -21,6 +21,9 @@ export class ImageCollage {
     "2d"
   ) as CanvasRenderingContext2D;
 
+  private inputField = document.createElement("input");
+  private button = document.createElement("button");
+
   constructor() {
     this.photoCollageEventListeners();
   }
@@ -44,34 +47,16 @@ export class ImageCollage {
     this.tempCtx.fillStyle = "lightgrey";
     this.tempCtx.fill();
 
-    //Input field for user to enter the number of rectangles required
-    const inputField = document.createElement("input");
-    inputField.type = "number";
-    inputField.placeholder = "Number of rectangles";
-    inputField.style.margin = "10px";
-    inputField.style.position = "absolute";
-    inputField.style.top = `${this.tempCanvas.height / 2 - 50}px`;
-    inputField.style.left = `${this.tempCanvas.width / 2 - 100}px`;
-    inputField.style.margin = "10px";
-    inputField.style.padding = "5px";
-    this.targetDiv.appendChild(inputField);
+    this.createInputField();
+    this.createGenerateButton();
 
-    const button = document.createElement("button");
-    button.textContent = "Generate";
-    button.style.position = "absolute";
-    button.style.padding = "5px";
-    button.style.backgroundColor = "lightgreen";
-    button.style.top = `${this.tempCanvas.height / 2}px`;
-    button.style.left = `${this.tempCanvas.width / 2 - 25}px`;
-    this.targetDiv.appendChild(button);
-
-    button.addEventListener("click", () => {
-      if (inputField.value === "") {
+    this.button.addEventListener("click", () => {
+      if (this.inputField.value === "") {
         return;
       }
-      inputField.style.display = "none";
-      button.style.display = "none";
-      const numberOfRectangles = parseInt(inputField.value);
+      this.inputField.style.display = "none";
+      this.button.style.display = "none";
+      const numberOfRectangles = parseInt(this.inputField.value);
       this.tempCtx.clearRect(
         0,
         0,
@@ -129,11 +114,32 @@ export class ImageCollage {
     });
   }
 
+  private createInputField() {
+    this.inputField.type = "number";
+    this.inputField.placeholder = "Number of rectangles";
+    this.inputField.style.margin = "10px";
+    this.inputField.style.position = "absolute";
+    this.inputField.style.top = `${this.tempCanvas.height / 2 - 50}px`;
+    this.inputField.style.left = `${this.tempCanvas.width / 2 - 100}px`;
+    this.inputField.style.margin = "10px";
+    this.inputField.style.padding = "5px";
+    this.targetDiv.appendChild(this.inputField);
+  }
+
+  private createGenerateButton() {
+    this.button.textContent = "Generate";
+    this.button.style.position = "absolute";
+    this.button.style.padding = "5px";
+    this.button.style.backgroundColor = "lightgreen";
+    this.button.style.top = `${this.tempCanvas.height / 2}px`;
+    this.button.style.left = `${this.tempCanvas.width / 2 - 25}px`;
+    this.targetDiv.appendChild(this.button);
+  }
+
   /**
    * @private chooseImage - Function to choose the images for the rectangles collage
    * @param rectangle - Rectangle object
    */
-
   private chooseImage(rectangle: Rectangle) {
     const input = document.createElement("input");
     input.type = "file";

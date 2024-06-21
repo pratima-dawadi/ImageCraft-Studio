@@ -153,7 +153,6 @@ export class ImageAdjustment {
    * @param filterType - filter type
    * @param value - value of the filter
    */
-
   private updateFilterValues(filterType: string, value: string) {
     switch (filterType) {
       case "Brightness":

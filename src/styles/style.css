@@ -167,20 +167,8 @@ input:hover {
 .choose__img button:nth-child(3) {
   border: none;
   margin: 2%;
-  padding: 5%;
+  padding: 4% 5%;
   font-size: 1rem;
   border-radius: 5%;
   background-color: rgb(208, 233, 233);
-}
-.right-panel button:hover {
-  background-color: #f5f5f5;
-}
-
-.right-panel button:first-child {
-  background-color: #e8a3a3;
-}
-
-.right-panel button:last-child,
-.right-panel button:nth-child(3) {
-  background-color: #a8ea9a;
 }

@@ -85,6 +85,7 @@ export class ResetSave {
     } else {
       ctx.translate(canvas.width / 2, canvas.height / 2);
     }
+    // ctx.translate(canvas.width / 2, canvas.height / 2);
 
     ctx.rotate(
       (parseFloat(
