@@ -30,6 +30,7 @@
                   font-size: 25px;
                   border-radius: 15px;
                   color: white;
+                  border: none;
                 "
               >
                 PHOTO COLLAGE
@@ -104,6 +105,24 @@
           </div>
 
           <div class="icons">
+            <p>Filters</p>
+            <div class="icons__collection4">
+              <button title="Moon" id="moon">
+                <img src="./src/images/moon.png" alt="moon" />
+              </button>
+              <button title="Hudson" id="hudson">
+                <img src="./src/images/hudson.png" alt="hudson" />
+              </button>
+              <button title="Retro" id="retro">
+                <img src="./src/images/retro.png" alt="retro" />
+              </button>
+              <button title="BlackWhite" id="blackwhite">
+                <img src="./src/images/blackwhite.png" alt="blackwhite" />
+              </button>
+            </div>
+          </div>
+
+          <div class="icons">
             <p>Resize and Crop</p>
             <div class="icons__collection3">
               <button id="resize">
@@ -131,33 +150,9 @@
           </div>
 
           <div class="icons">
-            <p>Filters</p>
-            <div class="icons__collection4">
-              <button title="Moon" id="moon">
-                <img src="./src/images/moon.png" alt="moon" />
-              </button>
-              <button title="Hudson" id="hudson">
-                <img src="./src/images/hudson.png" alt="hudson" />
-              </button>
-              <button title="Gingham" id="gingham">
-                <img src="./src/images/gingham.png" alt="gingham" />
-              </button>
-              <button title="Retro" id="retro">
-                <img src="./src/images/retro.png" alt="retro" />
-              </button>
-              <button title="BlackWhite" id="blackwhite">
-                <img src="./src/images/retro.png" alt="blackwhite" />
-              </button>
-            </div>
-          </div>
-
-          <div class="icons">
             <div class="icons__collection5">
               <div class="photo-shapes">
                 <p>PHOTO SHAPES</p>
-                <button title="Rectangle" id="rectangle">
-                  <img src="./src/images/rectangle.png" alt="rectangle" />
-                </button>
                 <button title="Circle" id="circle">
                   <img src="./src/images/circle.png" alt="circle" />
                 </button>
@@ -181,33 +176,53 @@
             <p>Text and Shapes</p>
             <div class="icons__collection6">
               <div class="text">
-                <button class="text">Insert Text</button>
-                <input type="color" id="color" />
+                <input
+                  type="text"
+                  class="text__input"
+                  placeholder="Enter Text"
+                />
+                <input type="color" class="text__color" />
                 <input
                   type="number"
-                  id="size"
+                  class="text__size"
                   placeholder="FontSize"
                   style="width: 25%; height: 1.8rem"
                 />
               </div>
+              <button
+                class="text__button"
+                style="width: 50%; text-align: center; margin-left: 30%"
+              >
+                Insert Text
+              </button>
+              <hr />
 
               <div class="insert-shapes">
-                <button class="insert__button">INSERT SHAPES</button>
+                <p>INSERT SHAPES</p>
 
                 <div class="shapes">
-                  <button class="shapes__button" title="Circle" id="circle">
+                  <button
+                    class="shapes__button"
+                    title="Circle"
+                    id="shape__circle"
+                  >
                     <img src="./src/images/circle.png" alt="circle" />
                   </button>
-                  <button class="shapes__button" title="Heart" id="heart">
-                    <img src="./src/images/heart.png" alt="heart" />
+                  <button
+                    class="shapes__button"
+                    title="Rectangle"
+                    id="shape__rectangle"
+                  >
+                    <img src="./src/images/rectangle.png" alt="rectangle" />
                   </button>
-                  <button class="shapes__button" title="Triangle" id="triangle">
+                  <button
+                    class="shapes__button"
+                    title="Triangle"
+                    id="shape__triangle"
+                  >
                     <img src="./src/images/triangle.png" alt="triangle" />
                   </button>
-                  <button class="shapes__button" title="Rhombus" id="rhombus">
-                    <img src="./src/images/rhombus.png" alt="rhombus" />
-                  </button>
-                  <button class="shapes__button" title="Star" id="star">
+                  <button class="shapes__button" title="Star" id="shape__star">
                     <img src="./src/images/star.png" alt="star" />
                   </button>
                 </div>
@@ -217,13 +232,11 @@
         </div>
 
         <div class="image-container">
-          <div class="image__space">
-            <canvas id="canvas"></canvas>
-            <!-- <video id="video" style="display: none"></video> -->
-          </div>
-          <!-- <div class="view-image">
+          <div class="view-image">
             <img src="./src/images/thumbnail.png" alt="view-image" />
-          </div> -->
+            <video id="video" style="display: none"></video>
+            <canvas id="canvas"></canvas>
+          </div>
 
           <div class="choose__img">
             <button class="upload">Upload Image</button>
@@ -236,6 +249,18 @@
         <div class="right-panel">
           <button class="reset">Reset Image <i class="fa fa-undo"></i></button>
           <button class="save">Save Image <i class="fa fa-save"></i></button>
+          <button class="undo">Undo</button>
+          <button class="redo">Redo</button>
+
+          <div class="history">
+            <h4>History</h4>
+            <div class="history-list"></div>
+          </div>
+          <div class="layer-list"></div>
+          <h4>Layers</h4>
+          <button id="addLayerBtn">Add Layer</button>
+          <button id="removeLayerBtn">Remove Layer</button>
+          <select id="layerSelect"></select>
         </div>
       </div>
     </div>
