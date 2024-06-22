@@ -35,8 +35,8 @@ export class ImageAdjustment {
   adjustContrast(value: number) {
     const imageData = this.getImageData();
     const data = imageData.data;
-    const contrast = value / 100;
-    const factor = (259 * (contrast + 1)) / (255 * (259 - contrast));
+    const contrast = (value - 100) / 100;
+    const factor = (259 * (contrast + 1)) / (255 * (1 - contrast));
 
     for (let i = 0; i < data.length; i += 4) {
       data[i] = factor * (data[i] - 128) + 128;

@@ -85,7 +85,13 @@ input:hover {
   flex-direction: column;
   justify-content: flex-start;
   gap: 40px;
+  overflow-y: scroll;
 }
+
+.right-panel::-webkit-scrollbar {
+  width: 8px;
+}
+
 .choose__img {
   display: flex;
   justify-content: center;

@@ -379,45 +379,18 @@ export class ImageEditing {
     ) as HTMLInputElement;
 
     rectangleBtn.addEventListener("click", () => {
-      const x = this.canvas.width / 4;
-      const y = this.canvas.height / 4;
-      const width = this.canvas.width / 2;
-      const height = this.canvas.height / 2;
-      this.shapeInserter.insertRectangle(
-        x,
-        y,
-        width,
-        height,
-        "rgba(255, 0, 0, 0.5)"
-      );
-      this.historyManager.saveState();
+      this.shapeInserter.setShapeType("rectangle");
+      this.shapeInserter.setShapeColor("rgba(255, 0, 0, 0.5)");
     });
 
     triangleBtn.addEventListener("click", () => {
-      const x1 = this.canvas.width / 2;
-      const y1 = this.canvas.height / 4;
-      const x2 = this.canvas.width / 4;
-      const y2 = (this.canvas.height * 3) / 4;
-      const x3 = (this.canvas.width * 3) / 4;
-      const y3 = (this.canvas.height * 3) / 4;
-      this.shapeInserter.insertTriangle(
-        x1,
-        y1,
-        x2,
-        y2,
-        x3,
-        y3,
-        "rgba(0, 255, 0, 0.5)"
-      );
-      this.historyManager.saveState();
+      this.shapeInserter.setShapeType("triangle");
+      this.shapeInserter.setShapeColor("rgba(0, 255, 0, 0.5)");
     });
 
     circleBtn.addEventListener("click", () => {
-      const x = this.canvas.width / 2;
-      const y = this.canvas.height / 2;
-      const radius = Math.min(this.canvas.width, this.canvas.height) / 4;
-      this.shapeInserter.insertCircle(x, y, radius, "rgba(0, 0, 255, 0.5)");
-      this.historyManager.saveState();
+      this.shapeInserter.setShapeType("circle");
+      this.shapeInserter.setShapeColor("rgba(0, 0, 255, 0.5)");
     });
 
     textBtn.addEventListener("click", () => {
