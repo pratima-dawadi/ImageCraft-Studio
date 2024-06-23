@@ -432,13 +432,13 @@ export class ImageEditing {
     addLayerBtn.addEventListener("click", () => {
       console.log("add layer button clicked");
       this.layerManager.addLayer();
-      this.updateLayerSelect();
+      // this.updateLayerSelect();
     });
 
     removeLayerBtn.addEventListener("click", () => {
       console.log("remove layer button clicked");
       this.layerManager.removeLayer();
-      this.updateLayerSelect();
+      // this.updateLayerSelect();
     });
 
     layerSelect.addEventListener("change", () => {

@@ -8,6 +8,11 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
     <link rel="stylesheet" href="/src/styles/style.css" />
 
     <title>ImageCraft Studio</title>
@@ -247,20 +252,25 @@
         </div>
 
         <div class="right-panel">
-          <button class="reset">Reset Image <i class="fa fa-undo"></i></button>
+          <button class="reset">
+            Reset Image <i class="fa fa-refresh"></i>
+          </button>
           <button class="save">Save Image <i class="fa fa-save"></i></button>
-          <button class="undo">Undo</button>
-          <button class="redo">Redo</button>
+          <div class="undoRedo">
+            <button class="undo">Undo <i class="fas fa-undo-alt"></i></button>
+            <button class="redo">Redo <i class="fas fa-redo-alt"></i></button>
+          </div>
 
           <div class="history">
             <h4>History</h4>
             <div class="history-list"></div>
           </div>
-          <div class="layer-list"></div>
-          <h4>Layers</h4>
-          <button id="addLayerBtn">Add Layer</button>
-          <button id="removeLayerBtn">Remove Layer</button>
-          <select id="layerSelect"></select>
+          <div class="layer-list">
+            <h4>Layers</h4>
+            <button id="addLayerBtn">Add Layer</button>
+            <button id="removeLayerBtn">Remove Layer</button>
+            <select id="layerSelect"></select>
+          </div>
         </div>
       </div>
     </div>
