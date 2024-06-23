@@ -381,16 +381,19 @@ export class ImageEditing {
     rectangleBtn.addEventListener("click", () => {
       this.shapeInserter.setShapeType("rectangle");
       this.shapeInserter.setShapeColor("rgba(255, 0, 0, 0.5)");
+      this.historyManager.saveState();
     });
 
     triangleBtn.addEventListener("click", () => {
       this.shapeInserter.setShapeType("triangle");
       this.shapeInserter.setShapeColor("rgba(0, 255, 0, 0.5)");
+      this.historyManager.saveState();
     });
 
     circleBtn.addEventListener("click", () => {
       this.shapeInserter.setShapeType("circle");
       this.shapeInserter.setShapeColor("rgba(0, 0, 255, 0.5)");
+      this.historyManager.saveState();
     });
 
     textBtn.addEventListener("click", () => {
