@@ -207,11 +207,29 @@ body::before {
   background-color: #2ac939;
 }
 
+.history {
+  height: 40%;
+  overflow-y: scroll;
+}
+
+.history::-webkit-scrollbar {
+  width: 8px;
+}
+.history::-webkit-scrollbar-track {
+  background: #c08f8f;
+  border-radius: 10px;
+}
+.history::-webkit-scrollbar-thumb {
+  background: #ff1f1f;
+  border-radius: 10px;
+}
+
 .layer-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+
 button:hover,
 input:hover {
   cursor: pointer;

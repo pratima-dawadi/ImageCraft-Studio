@@ -1,5 +1,4 @@
 import { Rectangle } from "../utils/Shapes";
-import { HistoryManager } from "./HistoryManager";
 
 /**
  * @class CropImage - Class to handle the resize and crop functionality within an existing canvas
@@ -13,7 +12,6 @@ export class CropImage {
   private startY: number;
   private currentWidth: number;
   private currentHeight: number;
-  private historyManager: HistoryManager;
 
   constructor(ctx: CanvasRenderingContext2D, cropButton: HTMLButtonElement) {
     this.ctx = ctx;
@@ -24,7 +22,6 @@ export class CropImage {
     this.startY = 0;
     this.currentWidth = 0;
     this.currentHeight = 0;
-    this.historyManager = new HistoryManager(this.ctx);
 
     this.setupEventListeners();
   }
@@ -128,9 +125,6 @@ export class CropImage {
       this.ctx.putImageData(croppedImage, 0, 0);
 
       this.originalImageData = null;
-      console.log(this.historyManager.undoStack.length);
-      this.historyManager.saveState();
-      console.log(this.historyManager.undoStack.length);
     }
   }
 

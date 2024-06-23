@@ -2,8 +2,18 @@
  * @class HistoryManager- to manage the history of the canvas and also handle the undo and redo functionality
  */
 export class HistoryManager {
-  public undoStack: ImageData[] = [];
-  private redoStack: ImageData[] = [];
+  public undoStack: {
+    imageData: ImageData;
+    width: number;
+    height: number;
+    apply: string;
+  }[] = [];
+  private redoStack: {
+    imageData: ImageData;
+    width: number;
+    height: number;
+    apply: string;
+  }[] = [];
   private ctx: CanvasRenderingContext2D;
 
   constructor(ctx: CanvasRenderingContext2D) {
@@ -13,15 +23,21 @@ export class HistoryManager {
   /**
    * @method saveState - Method to save the current state of the canvas
    */
-  saveState() {
+  saveState(apply: string) {
     const imageData = this.ctx.getImageData(
       0,
       0,
       this.ctx.canvas.width,
       this.ctx.canvas.height
     );
-    this.undoStack.push(imageData);
+    this.undoStack.push({
+      imageData,
+      width: this.ctx.canvas.width,
+      height: this.ctx.canvas.height,
+      apply: apply,
+    });
     this.redoStack = [];
+    this.updateHistoryPanel();
   }
 
   /**
@@ -32,8 +48,11 @@ export class HistoryManager {
       const currentState = this.undoStack.pop()!;
       this.redoStack.push(currentState);
       const previousState = this.undoStack[this.undoStack.length - 1];
+      this.ctx.canvas.width = previousState.width;
+      this.ctx.canvas.height = previousState.height;
       this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-      this.ctx.putImageData(previousState, 0, 0);
+      this.ctx.putImageData(previousState.imageData, 0, 0);
+      this.updateHistoryPanel();
     }
   }
 
@@ -44,8 +63,23 @@ export class HistoryManager {
     if (this.redoStack.length > 0) {
       const nextState = this.redoStack.pop()!;
       this.undoStack.push(nextState);
+      this.ctx.canvas.width = nextState.width;
+      this.ctx.canvas.height = nextState.height;
       this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-      this.ctx.putImageData(nextState, 0, 0);
+      this.ctx.putImageData(nextState.imageData, 0, 0);
+      this.updateHistoryPanel();
+    }
+  }
+  updateHistoryPanel() {
+    const historyPanel = document.querySelector(".history-list");
+    if (historyPanel) {
+      historyPanel.innerHTML = "";
+      this.undoStack.forEach((state, index) => {
+        const historyItem = document.createElement("div");
+        historyItem.className = "history-item";
+        historyItem.innerHTML = `${index + 1} - ${state.apply}`;
+        historyPanel.appendChild(historyItem);
+      });
     }
   }
 }

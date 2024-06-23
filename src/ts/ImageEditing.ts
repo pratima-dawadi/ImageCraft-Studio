@@ -111,7 +111,7 @@ export class ImageEditing {
         this.canvas.width,
         this.canvas.height
       );
-      this.historyManager.saveState();
+      // this.historyManager.saveState();
     }
   }
 
@@ -234,9 +234,10 @@ export class ImageEditing {
 
   private applyAdjustment(adjustmentFunction: () => void) {
     // this.drawImageOnCanvas();
+    const adjustmentName = this.sliderName.textContent?.trim();
+
     adjustmentFunction();
-    this.historyManager.saveState();
-    this.updateHistoryList();
+    this.historyManager.saveState(`Applied ${adjustmentName}`);
   }
 
   public filterEventListeners() {
@@ -245,7 +246,7 @@ export class ImageEditing {
     ) as HTMLButtonElement;
     moonfilterButton.addEventListener("click", () => {
       this.imageFilter.moonFilter();
-      this.historyManager.saveState();
+      this.historyManager.saveState("Applied moon filter");
     });
 
     const hudsonfilterButton = document.querySelector(
@@ -253,7 +254,7 @@ export class ImageEditing {
     ) as HTMLButtonElement;
     hudsonfilterButton.addEventListener("click", () => {
       this.imageFilter.hudsonFilter();
-      this.historyManager.saveState();
+      this.historyManager.saveState("Applied hudson filter");
     });
 
     const retrofilterButton = document.querySelector(
@@ -261,7 +262,7 @@ export class ImageEditing {
     ) as HTMLButtonElement;
     retrofilterButton.addEventListener("click", () => {
       this.imageFilter.retroFilter();
-      this.historyManager.saveState();
+      this.historyManager.saveState("Applied retro filter");
     });
 
     const blackAndWhiteFilterButton = document.querySelector(
@@ -269,7 +270,7 @@ export class ImageEditing {
     ) as HTMLButtonElement;
     blackAndWhiteFilterButton.addEventListener("click", () => {
       this.imageFilter.blackAndWhiteFilter();
-      this.historyManager.saveState();
+      this.historyManager.saveState("Applied black and white filter");
     });
   }
 
@@ -279,7 +280,7 @@ export class ImageEditing {
     ) as HTMLButtonElement;
     rotateLeftButton.addEventListener("click", () => {
       this.imageTransform.rotateLeft();
-      this.historyManager.saveState();
+      this.historyManager.saveState("Rotated left");
     });
 
     const rotateRightButton = document.querySelector(
@@ -287,7 +288,7 @@ export class ImageEditing {
     ) as HTMLButtonElement;
     rotateRightButton.addEventListener("click", () => {
       this.imageTransform.rotateRight();
-      this.historyManager.saveState();
+      this.historyManager.saveState("Rotated right");
     });
 
     const flipHorizontalButton = document.querySelector(
@@ -295,7 +296,7 @@ export class ImageEditing {
     ) as HTMLButtonElement;
     flipHorizontalButton.addEventListener("click", () => {
       this.imageTransform.flipX();
-      this.historyManager.saveState();
+      this.historyManager.saveState("Flipped horizontally");
     });
 
     const flipVerticalButton = document.querySelector(
@@ -303,7 +304,7 @@ export class ImageEditing {
     ) as HTMLButtonElement;
     flipVerticalButton.addEventListener("click", () => {
       this.imageTransform.flipY();
-      this.historyManager.saveState();
+      this.historyManager.saveState("Flipped vertically");
     });
   }
 
@@ -335,13 +336,13 @@ export class ImageEditing {
       console.log(width, height);
       if (width > 0 && height > 0) {
         this.imageResize.resize(width, height);
-        this.historyManager.saveState();
+        this.historyManager.saveState(`Resized to ${width}x${height}`);
       }
     });
 
     this.cropButton.addEventListener("click", () => {
       this.cropImage.checkActive();
-      // this.historyManager.saveState();
+      this.historyManager.saveState("Cropped image");
     });
   }
 
@@ -352,7 +353,7 @@ export class ImageEditing {
         this.imageShape.fitImageInShape(
           button.id as "heart" | "circle" | "triangle" | "rhombus" | "star"
         );
-        this.historyManager.saveState();
+        this.historyManager.saveState("Fitted image in shape");
       });
     });
   }
@@ -381,19 +382,19 @@ export class ImageEditing {
     rectangleBtn.addEventListener("click", () => {
       this.shapeInserter.setShapeType("rectangle");
       this.shapeInserter.setShapeColor("rgba(255, 0, 0, 0.5)");
-      this.historyManager.saveState();
+      this.historyManager.saveState("Inserted rectangle shape");
     });
 
     triangleBtn.addEventListener("click", () => {
       this.shapeInserter.setShapeType("triangle");
       this.shapeInserter.setShapeColor("rgba(0, 255, 0, 0.5)");
-      this.historyManager.saveState();
+      this.historyManager.saveState("Inserted triangle shape");
     });
 
     circleBtn.addEventListener("click", () => {
       this.shapeInserter.setShapeType("circle");
       this.shapeInserter.setShapeColor("rgba(0, 0, 255, 0.5)");
-      this.historyManager.saveState();
+      this.historyManager.saveState("Inserted circle shape");
     });
 
     textBtn.addEventListener("click", () => {
@@ -404,7 +405,7 @@ export class ImageEditing {
         textFont.value,
         textColor.value
       );
-      this.historyManager.saveState();
+      this.historyManager.saveState("Inserted text");
     });
   }
 
@@ -452,17 +453,10 @@ export class ImageEditing {
 
   updateLayerSelect() {}
 
-  updateHistoryList() {
-    // const historyElement = document.querySelector(".history-list");
-    // if (historyElement) {
-    //   historyElement.innerHTML += `<li>${this.historyManager.undoStack}</li>`;
-    // }
-  }
-
   photoCollageEventListeners() {
     this.photoCollageButton?.addEventListener("click", () => {
       this.photoCollage.makeCollage();
-      this.historyManager.saveState();
+      this.historyManager.saveState("Made photo collage");
     });
   }
 }
