@@ -1,3 +1,6 @@
+/**
+ * @class ImageFilter - Apply filter to the images
+ */
 export class ImageFilter {
   ctx: CanvasRenderingContext2D;
   constructor(ctx: CanvasRenderingContext2D) {

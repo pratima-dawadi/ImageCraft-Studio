@@ -1,3 +1,6 @@
+/**
+ * @class ImageTransform - Rotate and flip image
+ */
 export class ImageTransform {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;

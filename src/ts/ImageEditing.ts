@@ -12,6 +12,7 @@ import { HistoryManager } from "./ActionApplied/HistoryManager";
 import { LayerManager } from "./ActionApplied/LayerManager";
 import { PhotoCollage } from "./ActionApplied/PhotoCollage";
 import { CropImage } from "./ActionApplied/CropImage";
+import { ResetFunction } from "./ActionApplied/ResetFunction";
 
 export class ImageEditing {
   private canvas: HTMLCanvasElement;
@@ -31,6 +32,7 @@ export class ImageEditing {
   private layerManager: LayerManager;
   private photoCollage: PhotoCollage;
   private cropImage: CropImage;
+  private resetFunction: ResetFunction;
 
   private CANVAS_WIDTH: number;
   private CANVAS_HEIGHT: number;
@@ -51,6 +53,8 @@ export class ImageEditing {
 
   private cropButton = document.querySelector("#crop") as HTMLButtonElement;
 
+  private adjustmentName: string = "";
+
   constructor() {
     this.canvas = document.createElement("canvas");
     this.ctx = this.canvas.getContext("2d")!;
@@ -68,6 +72,7 @@ export class ImageEditing {
     this.layerManager = new LayerManager(this.canvas);
     this.photoCollage = new PhotoCollage(this.ctx);
     this.cropImage = new CropImage(this.ctx, this.cropButton);
+    this.resetFunction = new ResetFunction();
 
     this.imageContainer = document.querySelector(
       ".view-image"
@@ -89,6 +94,7 @@ export class ImageEditing {
     this.undoRedoEventListeners();
     this.layerEventListeners();
     this.photoCollageEventListeners();
+    this.checksliderStack();
   }
 
   private initializeImage() {
@@ -104,14 +110,34 @@ export class ImageEditing {
     if (this.currentImage) {
       this.canvas.width = this.CANVAS_WIDTH;
       this.canvas.height = this.CANVAS_HEIGHT;
+
+      const imageAspectRatio =
+        this.currentImage.width / this.currentImage.height;
+      const canvasAspectRatio = this.canvas.width / this.canvas.height;
+
+      let drawWidth, drawHeight;
+
+      if (imageAspectRatio > canvasAspectRatio) {
+        drawWidth = this.canvas.width;
+        drawHeight = this.canvas.width / imageAspectRatio;
+      } else {
+        drawHeight = this.canvas.height;
+        drawWidth = this.canvas.height * imageAspectRatio;
+      }
+
+      const offsetX = (this.canvas.width - drawWidth) / 2;
+      const offsetY = (this.canvas.height - drawHeight) / 2;
+
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.drawImage(
         this.currentImage,
-        0,
-        0,
-        this.canvas.width,
-        this.canvas.height
+        offsetX,
+        offsetY,
+        drawWidth,
+        drawHeight
       );
-      // this.historyManager.saveState();
+
+      this.historyManager.saveState("Image loaded");
     }
   }
 
@@ -132,6 +158,7 @@ export class ImageEditing {
         document.querySelector(".active")?.classList.remove("active");
         button.classList.add("active");
         this.sliderName.innerHTML = button.id;
+        this.adjustmentName = button.id;
         this.setSliderValues(button.id);
       });
     });
@@ -140,49 +167,52 @@ export class ImageEditing {
   private setSliderValues(filterType: string) {
     switch (filterType) {
       case "Brightness":
-        this.slider.max = "400";
-        this.slider.value = this.constants.BRIGHTNESS;
-        this.sliderValue.innerText = `${this.constants.BRIGHTNESS}`;
+        this.slider.max = "200";
+        this.slider.value =
+          this.imageAdjustment.properties.BRIGHTNESS.toString();
+        this.sliderValue.innerText = `${this.imageAdjustment.properties.BRIGHTNESS}`;
         break;
       case "Contrast":
         this.slider.max = "200";
-        this.slider.value = this.constants.CONTRAST;
-        this.sliderValue.innerText = `${this.constants.CONTRAST}`;
+        this.slider.value = this.imageAdjustment.properties.CONTRAST.toString();
+        this.sliderValue.innerText = `${this.imageAdjustment.properties.CONTRAST}`;
         break;
       case "Saturation":
         this.slider.max = "200";
-        this.slider.value = this.constants.SATURATION;
-        this.sliderValue.innerText = `${this.constants.SATURATION}`;
+        this.slider.value =
+          this.imageAdjustment.properties.SATURATION.toString();
+        this.sliderValue.innerText = `${this.imageAdjustment.properties.SATURATION}`;
         break;
       case "Sepia":
         this.slider.max = "100";
-        this.slider.value = this.constants.SEPIA;
-        this.sliderValue.innerText = `${this.constants.SEPIA}`;
+        this.slider.value = this.imageAdjustment.properties.SEPIA.toString();
+        this.sliderValue.innerText = `${this.imageAdjustment.properties.SEPIA}`;
         break;
       case "Hue":
         this.slider.max = "360";
-        this.slider.value = this.constants.HUE;
-        this.sliderValue.innerText = `${this.constants.HUE}`;
+        this.slider.value = this.imageAdjustment.properties.HUE.toString();
+        this.sliderValue.innerText = `${this.imageAdjustment.properties.HUE}`;
         break;
       case "Blur":
         this.slider.max = "10";
-        this.slider.value = this.constants.BLUR;
-        this.sliderValue.innerText = `${this.constants.BLUR}`;
+        this.slider.value = this.imageAdjustment.properties.BLUR.toString();
+        this.sliderValue.innerText = `${this.imageAdjustment.properties.BLUR}`;
         break;
       case "Opacity":
         this.slider.max = "100";
-        this.slider.value = this.constants.OPACITY;
-        this.sliderValue.innerText = `${this.constants.OPACITY}`;
+        this.slider.value = this.imageAdjustment.properties.OPACITY.toString();
+        this.sliderValue.innerText = `${this.imageAdjustment.properties.OPACITY}`;
         break;
       case "Grayscale":
         this.slider.max = "100";
-        this.slider.value = this.constants.GRAYSCALE;
-        this.sliderValue.innerText = `${this.constants.GRAYSCALE}`;
+        this.slider.value =
+          this.imageAdjustment.properties.GRAYSCALE.toString();
+        this.sliderValue.innerText = `${this.imageAdjustment.properties.GRAYSCALE}`;
         break;
       case "Invert":
         this.slider.max = "100";
-        this.slider.value = this.constants.INVERT;
-        this.sliderValue.innerText = `${this.constants.INVERT}`;
+        this.slider.value = this.imageAdjustment.properties.INVERT.toString();
+        this.sliderValue.innerText = `${this.imageAdjustment.properties.INVERT}`;
         break;
     }
   }
@@ -233,11 +263,13 @@ export class ImageEditing {
   }
 
   private applyAdjustment(adjustmentFunction: () => void) {
-    // this.drawImageOnCanvas();
-    const adjustmentName = this.sliderName.textContent?.trim();
-
     adjustmentFunction();
-    this.historyManager.saveState(`Applied ${adjustmentName}`);
+  }
+
+  checksliderStack() {
+    this.slider.addEventListener("click", () => {
+      this.historyManager.saveState(`Applied ${this.adjustmentName}`);
+    });
   }
 
   public filterEventListeners() {
@@ -312,6 +344,16 @@ export class ImageEditing {
     const resetButton = document.querySelector(".reset") as HTMLButtonElement;
     resetButton.addEventListener("click", () => {
       this.drawImageOnCanvas();
+      this.historyManager.undoStack = [];
+      this.historyManager.redoStack = [];
+      this.historyManager.updateHistoryPanel();
+      this.resetFunction.updateSliderOnReset(
+        this.imageAdjustment,
+        this.constants
+      );
+      this.sliderName.innerHTML = "Brightness";
+      this.sliderValue.textContent = "100";
+      this.slider.value = "50";
     });
 
     const saveButton = document.querySelector(".save") as HTMLButtonElement;
@@ -333,7 +375,6 @@ export class ImageEditing {
       const width = parseInt(resizeWidthInput.value);
       const height = parseInt(resizeHeightInput.value);
 
-      console.log(width, height);
       if (width > 0 && height > 0) {
         this.imageResize.resize(width, height);
         this.historyManager.saveState(`Resized to ${width}x${height}`);
@@ -368,6 +409,7 @@ export class ImageEditing {
     const circleBtn = document.querySelector(
       "#shape__circle"
     ) as HTMLButtonElement;
+    const lineBtn = document.querySelector("#shape__line") as HTMLButtonElement;
     const textBtn = document.querySelector(
       ".text__button"
     ) as HTMLButtonElement;
@@ -381,20 +423,26 @@ export class ImageEditing {
 
     rectangleBtn.addEventListener("click", () => {
       this.shapeInserter.setShapeType("rectangle");
-      this.shapeInserter.setShapeColor("rgba(255, 0, 0, 0.5)");
+      this.shapeInserter.setShapeColor("rgba(255, 0, 0)");
       this.historyManager.saveState("Inserted rectangle shape");
     });
 
     triangleBtn.addEventListener("click", () => {
       this.shapeInserter.setShapeType("triangle");
-      this.shapeInserter.setShapeColor("rgba(0, 255, 0, 0.5)");
+      this.shapeInserter.setShapeColor("rgba(0, 255, 0)");
       this.historyManager.saveState("Inserted triangle shape");
     });
 
     circleBtn.addEventListener("click", () => {
       this.shapeInserter.setShapeType("circle");
-      this.shapeInserter.setShapeColor("rgba(0, 0, 255, 0.5)");
+      this.shapeInserter.setShapeColor("rgba(0, 0, 255)");
       this.historyManager.saveState("Inserted circle shape");
+    });
+
+    lineBtn.addEventListener("click", () => {
+      this.shapeInserter.setShapeType("line");
+      this.shapeInserter.setShapeColor("rgba(0, 0, 0)");
+      this.historyManager.saveState("Inserted line");
     });
 
     textBtn.addEventListener("click", () => {
@@ -429,29 +477,15 @@ export class ImageEditing {
     const removeLayerBtn = document.getElementById(
       "removeLayerBtn"
     ) as HTMLButtonElement;
-    const layerSelect = document.getElementById(
-      "layerSelect"
-    ) as HTMLSelectElement;
 
     addLayerBtn.addEventListener("click", () => {
-      console.log("add layer button clicked");
       this.layerManager.addLayer();
-      // this.updateLayerSelect();
     });
 
     removeLayerBtn.addEventListener("click", () => {
-      console.log("remove layer button clicked");
       this.layerManager.removeLayer();
-      // this.updateLayerSelect();
-    });
-
-    layerSelect.addEventListener("change", () => {
-      console.log("layer select changed");
-      this.layerManager.setCurrentLayer(parseInt(layerSelect.value));
     });
   }
-
-  updateLayerSelect() {}
 
   photoCollageEventListeners() {
     this.photoCollageButton?.addEventListener("click", () => {

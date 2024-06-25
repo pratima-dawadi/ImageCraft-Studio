@@ -1,3 +1,6 @@
+/**
+ * @class ImageShape - Mask the image with a shape
+ */
 export class ImageShape {
   private ctx: CanvasRenderingContext2D;
 

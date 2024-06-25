@@ -13,6 +13,9 @@ enum Mode {
   Move,
 }
 
+/**
+ * @class ShapeInserter - Insert shapes on the canvas
+ */
 export class ShapeInserter {
   private ctx: CanvasRenderingContext2D;
   private shapes: Shape[] = [];
@@ -22,11 +25,11 @@ export class ShapeInserter {
   private dragOffsetY: number = 0;
   private originalCanvasState: ImageData | null = null;
   private currentShapeType: string | null = null;
-  private currentShapeColor: string = "rgba(255, 0, 0, 0.5)";
+  private currentShapeColor: string = "rgba(255, 0, 0)";
   private isDrawing: boolean = false;
   private startX: number = 0;
   private startY: number = 0;
-  private mode: Mode = Mode.Move; // Default mode is Move
+  private mode: Mode = Mode.Move;
 
   constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;
@@ -168,6 +171,20 @@ export class ShapeInserter {
           color: this.currentShapeColor,
         };
         break;
+
+      case "line":
+        newShape = {
+          type: "line",
+          x: this.startX,
+          y: this.startY,
+          color: this.currentShapeColor,
+          points: [
+            { x: this.startX, y: this.startY },
+            { x, y },
+          ],
+        };
+        break;
+
       default:
         return;
     }
@@ -206,6 +223,13 @@ export class ShapeInserter {
         this.ctx.arc(this.startX, this.startY, radius, 0, Math.PI * 2);
         this.ctx.fill();
         break;
+
+      case "line":
+        this.ctx.beginPath();
+        this.ctx.moveTo(this.startX, this.startY);
+        this.ctx.lineTo(x, y);
+        this.ctx.stroke();
+        break;
     }
   }
 
@@ -241,6 +265,15 @@ export class ShapeInserter {
             this.ctx.fill();
           }
           break;
+
+        case "line":
+          if (shape.points && shape.points.length === 2) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(shape.points[0].x, shape.points[0].y);
+            this.ctx.lineTo(shape.points[1].x, shape.points[1].y);
+            this.ctx.stroke();
+          }
+          break;
       }
     });
   }
@@ -272,6 +305,20 @@ export class ShapeInserter {
         return shape.radius
           ? this.isPointInCircle(x, y, shape.x, shape.y, shape.radius)
           : false;
+
+      case "line":
+        if (shape.points && shape.points.length === 2) {
+          return this.isPointOnLine(
+            x,
+            y,
+            shape.points[0].x,
+            shape.points[0].y,
+            shape.points[1].x,
+            shape.points[1].y
+          );
+        }
+        return false;
+
       default:
         return false;
     }
@@ -304,5 +351,26 @@ export class ShapeInserter {
     const dx = x - cx;
     const dy = y - cy;
     return dx * dx + dy * dy <= radius * radius;
+  }
+  private isPointOnLine(
+    x: number,
+    y: number,
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number
+  ): boolean {
+    const dxc = x - x1;
+    const dyc = y - y1;
+    const dxl = x2 - x1;
+    const dyl = y2 - y1;
+    const cross = dxc * dyl - dyc * dxl;
+    if (cross !== 0) return false;
+
+    if (Math.abs(dxl) >= Math.abs(dyl)) {
+      return dxl > 0 ? x1 <= x && x <= x2 : x2 <= x && x <= x1;
+    } else {
+      return dyl > 0 ? y1 <= y && y <= y2 : y2 <= y && y <= y1;
+    }
   }
 }

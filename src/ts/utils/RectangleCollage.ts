@@ -62,6 +62,7 @@ export class RectangleCollage {
       this.draw(ctx);
     }
   }
+  
   public collidesWith(rect: RectangleCollage): boolean {
     return !(
       this.x + this.width < rect.x ||

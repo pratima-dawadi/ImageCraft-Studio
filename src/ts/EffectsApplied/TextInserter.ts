@@ -6,6 +6,9 @@ interface TextElement {
   color: string;
 }
 
+/**
+ * @class TextInserter - Insert text on the canvas
+ */
 export class TextInserter {
   private ctx: CanvasRenderingContext2D;
   private canvas: HTMLCanvasElement;
@@ -98,7 +101,6 @@ export class TextInserter {
       this.ctx.putImageData(this.originalCanvasState, 0, 0);
     }
 
-    //Drawing all the text Elements on the canvas
     this.texts.forEach((text) => {
       this.ctx.font = `${text.font}px sans-serif`;
       this.ctx.fillStyle = text.color;

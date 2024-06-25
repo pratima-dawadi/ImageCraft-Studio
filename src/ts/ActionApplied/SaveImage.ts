@@ -1,3 +1,6 @@
+/**
+ * @class SaveImage - Class for saving the edited image
+ */
 export class SaveImage {
   canvas: HTMLCanvasElement;
   constructor(canvas: HTMLCanvasElement) {

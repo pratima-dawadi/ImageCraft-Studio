@@ -8,7 +8,7 @@ export class HistoryManager {
     height: number;
     apply: string;
   }[] = [];
-  private redoStack: {
+  public redoStack: {
     imageData: ImageData;
     width: number;
     height: number;
