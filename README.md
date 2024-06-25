@@ -13,6 +13,7 @@ ImageCraft Studio is a versatile and user-friendly web application for image edi
 - **Text and Shapes**: Add text, shapes, and lines to your images with customizable colors and fonts.
 - **Layers Management**: Add and manage multiple layers, adjust their order using z-index.
 - **Undo and Redo**: Revert or reapply changes with undo and redo functionality.
+- **History Panel**: To see the effects applied to image.
 - **Save and Reset**: Save your edited images or reset them to their original form.
 - **Photo Collage**: Create stunning photo collages with randomly generated, non-overlapping rectangles.
 
