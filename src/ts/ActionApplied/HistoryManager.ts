@@ -70,6 +70,7 @@ export class HistoryManager {
       this.updateHistoryPanel();
     }
   }
+
   updateHistoryPanel() {
     const historyPanel = document.querySelector(".history-list");
     if (historyPanel) {
