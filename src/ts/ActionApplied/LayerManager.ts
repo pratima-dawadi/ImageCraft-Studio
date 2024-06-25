@@ -144,4 +144,23 @@ export class LayerManager {
   private onMouseUp() {
     this.isDragging = false;
   }
+
+  resetLayer() {
+    if (!this.baseCanvas.parentElement) return;
+
+    this.layers.forEach((layer) => {
+      this.baseCanvas.parentElement!.removeChild(layer);
+    });
+
+    this.layers = [];
+
+    const layerSelect = document.getElementById(
+      "layerSelect"
+    ) as HTMLSelectElement;
+    if (layerSelect) {
+      layerSelect.innerHTML = "Layer 0";
+    }
+
+    this.currentLayerIndex = 0;
+  }
 }

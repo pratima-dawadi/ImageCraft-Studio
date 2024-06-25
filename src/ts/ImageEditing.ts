@@ -354,6 +354,7 @@ export class ImageEditing {
       this.sliderName.innerHTML = "Brightness";
       this.sliderValue.textContent = "100";
       this.slider.value = "50";
+      this.layerManager.resetLayer();
     });
 
     const saveButton = document.querySelector(".save") as HTMLButtonElement;
